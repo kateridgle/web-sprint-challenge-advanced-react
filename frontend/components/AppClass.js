@@ -49,7 +49,10 @@ export default class AppClass extends React.Component {
     
   }
 
-  reset = () => {
+  reset = (evt) => {
+    if(evt.target.id==="reset"){
+      this.setState(initialState)
+    }
     // Use this helper to reset all states to their initial values.
   }
 
@@ -97,7 +100,7 @@ export default class AppClass extends React.Component {
 
     }
     if(evt.target.id==="down"){
-      console.log(evt);
+      // console.log(evt);
       
       if(this.state.index < 6) {
           this.setState({
@@ -111,14 +114,38 @@ export default class AppClass extends React.Component {
       }
 
     }
-    // if (evt.target.id==="right"){
+    if (evt.target.id==="right"){
+      // console.log(evt)
+      if(this.state.index === 1 || this.state.index=== 4 || this.state.index === 7 || this.state.index === 0 || this.state.index === 3 ||
+         this.state.index=== 6){
+          this.setState({
+            ...this.state,
+            index: this.state.index + 1,
+            message: "",
+            steps: this.state.steps + 1
+          })
 
+      } else {
+        this.setState({...this.state, message: "You can't go right"})
+      }
 
-    // }
+    }
     
-    // if (evt.target.id==="left"){
+    if (evt.target.id==="left"){
+      // console.log(evt)
+      if(this.state.index===1 || this.state.index===4 || this.state.index===7 || this.state.index===2 || this.state.index===5 ||
+        this.state.index===8){
+          this.setState({
+            ...this.state,
+            index: this.state.index -1,
+            message: "",
+            steps: this.state.steps + 1
+          })
+        } else {
+          this.setState({...this.state, message: "You can't go left"})
+        }
 
-    // }
+    }
 
 
 
@@ -154,11 +181,11 @@ export default class AppClass extends React.Component {
           <h3  id="message">{this.state.message}</h3>
         </div>
         <div id="keypad">
-          <button id="left">LEFT</button>
+          <button onClick={this.move} id="left">LEFT</button>
           <button onClick={this.move} id="up">UP</button>
-          <button id="right">RIGHT</button>
-          <button id="down">DOWN</button>
-          <button id="reset">reset</button>
+          <button onClick={this.move} id="right">RIGHT</button>
+          <button onClick={this.move} id="down">DOWN</button>
+          <button onClick={this.reset}id="reset">reset</button>
         </div>
         <form>
           <input id="email" type="email" placeholder="type email"></input>
