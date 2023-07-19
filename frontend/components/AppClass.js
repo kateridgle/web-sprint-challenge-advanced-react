@@ -53,7 +53,7 @@ export default class AppClass extends React.Component {
     if(evt.target.id==="reset"){
       this.setState(initialState)
     }
-    // Use this helper to reset all states to their initial values.
+    
   }
 
   getNextIndex = (direction) => {
@@ -153,6 +153,10 @@ export default class AppClass extends React.Component {
 
   onChange = (evt) => {
     // You will need this to update the value of the input.
+    this.setState({
+      ...this.state,
+      email: evt.target.value
+    })
   }
 
   onSubmit = (evt) => {
@@ -188,8 +192,8 @@ export default class AppClass extends React.Component {
           <button onClick={this.reset}id="reset">reset</button>
         </div>
         <form>
-          <input id="email" type="email" placeholder="type email"></input>
-          <input id="submit" type="submit"></input>
+          <input onChange={this.onChange} id="email" type="email" placeholder="type email"></input>
+          <input onSubmit={this.onSubmit} id="submit" type="submit"></input>
         </form>
       </div>
     )
