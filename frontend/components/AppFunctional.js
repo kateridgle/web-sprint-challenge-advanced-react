@@ -58,66 +58,66 @@ export default function AppFunctional(props) {
     if (evt.target.id === "up") {
       // console.log(evt);
 
-      if (this.state.index > 2) {
-        this.setState({
-          ...this.state,
-          index: this.state.index - 3,
+      if (state.index > 2) {
+        setState({
+          ...state,
+          index: state.index - 3,
           message: "",
-          steps: this.state.steps + 1,
-          y: this.state.y - 1
+          steps: state.steps + 1,
+          y: state.y - 1
         })
       } else {
-        this.setState({ ...this.state, message: "You can't go up" })
+        setState({ ...state, message: "You can't go up" })
       }
 
     }
     if (evt.target.id === "down") {
       // console.log(evt);
 
-      if (this.state.index < 6) {
-        this.setState({
-          ...this.state,
-          index: this.state.index + 3,
+      if (state.index < 6) {
+        setState({
+          ...state,
+          index: state.index + 3,
           message: "",
-          steps: this.state.steps + 1,
-          y: this.state.y + 1
+          steps: state.steps + 1,
+          y: state.y + 1
         })
       } else {
-        this.setState({ ...this.state, message: "You can't go down" })
+        setState({ ...state, message: "You can't go down" })
       }
 
     }
     if (evt.target.id === "right") {
       // console.log(evt)
-      if (this.state.index === 1 || this.state.index === 4 || this.state.index === 7 || this.state.index === 0 || this.state.index === 3 ||
-        this.state.index === 6) {
-        this.setState({
-          ...this.state,
-          index: this.state.index + 1,
+      if (state.index === 1 || state.index === 4 || state.index === 7 || state.index === 0 || state.index === 3 ||
+        state.index === 6) {
+        setState({
+          ...state,
+          index: state.index + 1,
           message: "",
-          steps: this.state.steps + 1,
-          x: this.state.x + 1
+          steps: state.steps + 1,
+          x: state.x + 1
         })
 
       } else {
-        this.setState({ ...this.state, message: "You can't go right" })
+        setState({ ...state, message: "You can't go right" })
       }
 
     }
 
     if (evt.target.id === "left") {
       // console.log(evt)
-      if (this.state.index === 1 || this.state.index === 4 || this.state.index === 7 || this.state.index === 2 || this.state.index === 5 ||
-        this.state.index === 8) {
+      if (state.index === 1 || state.index === 4 || state.index === 7 || indexOf === 2 || state.index === 5 ||
+        state.index === 8) {
         setState({
           ...state,
           index: state.index - 1,
           message: "",
           steps: state.steps + 1,
-          x: this.state.x - 1
+          x: state.x - 1
         })
       } else {
-        setState({ ...this.state, message: "You can't go left" })
+        setState({ ...state, message: "You can't go left" })
       }
 
     }
