@@ -14,20 +14,21 @@ export default function AppFunctional(props) {
   // You can delete them and build your own logic from scratch.
   const [state, setState] = useState("")
   const [inputText, setInputText] = useState("")
+  const {messsage, email, steps, index} = props.value
 
   function getXY() {
     // It it not necessary to have a state to track the coordinates.
     // It's enough to know what index the "B" is at, to be able to calculate them.
-    const x = (this.state.index % 3) + 1
+    const x = (props.index % 3) + 1
 
     let y
-    if (this.state.index < 3) {
+    if (props.index < 3) {
       y = 1
     }
-    else if (this.state.index < 6) {
+    else if (props.index < 6) {
       y = 2
     }
-    else if (this.state.index < 9) {
+    else if (props.index < 9) {
       y = 3
     }
 
@@ -58,13 +59,13 @@ export default function AppFunctional(props) {
     if (evt.target.id === "up") {
       // console.log(evt);
 
-      if (state.index > 2) {
+      if (props.index > 2) {
         setState({
           ...state,
-          index: state.index - 3,
+          index: props.index - 3,
           message: "",
-          steps: state.steps + 1,
-          y: state.y - 1
+          steps: props.steps + 1,
+          y: props.y - 1
         })
       } else {
         setState({ ...state, message: "You can't go up" })
@@ -74,13 +75,13 @@ export default function AppFunctional(props) {
     if (evt.target.id === "down") {
       // console.log(evt);
 
-      if (state.index < 6) {
+      if (props.index < 6) {
         setState({
           ...state,
-          index: state.index + 3,
+          index: props.index + 3,
           message: "",
-          steps: state.steps + 1,
-          y: state.y + 1
+          steps: props.steps + 1,
+          y: props.y + 1
         })
       } else {
         setState({ ...state, message: "You can't go down" })
@@ -89,14 +90,14 @@ export default function AppFunctional(props) {
     }
     if (evt.target.id === "right") {
       // console.log(evt)
-      if (state.index === 1 || state.index === 4 || state.index === 7 || state.index === 0 || state.index === 3 ||
-        state.index === 6) {
+      if (props.index === 1 || props.index === 4 || props.index === 7 || props.index === 0 || props.index === 3 ||
+        props.index === 6) {
         setState({
           ...state,
-          index: state.index + 1,
+          index: props.index + 1,
           message: "",
-          steps: state.steps + 1,
-          x: state.x + 1
+          steps: props.steps + 1,
+          x: props.x + 1
         })
 
       } else {
@@ -107,14 +108,14 @@ export default function AppFunctional(props) {
 
     if (evt.target.id === "left") {
       // console.log(evt)
-      if (state.index === 1 || state.index === 4 || state.index === 7 || indexOf === 2 || state.index === 5 ||
-        state.index === 8) {
+      if (props.index === 1 || props.index === 4 || props.index === 7 || props.index === 2 || props.index === 5 ||
+        props.index === 8) {
         setState({
           ...state,
-          index: state.index - 1,
+          index: props.index - 1,
           message: "",
-          steps: state.steps + 1,
-          x: state.x - 1
+          steps: props.steps + 1,
+          x: props.x - 1
         })
       } else {
         setState({ ...state, message: "You can't go left" })
