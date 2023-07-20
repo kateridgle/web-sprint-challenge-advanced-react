@@ -197,7 +197,7 @@ export default class AppClass extends React.Component {
     axios.post('http://localhost:9000/api/result', payload)
       .then(res => {
         console.log(res.data)
-        this.setState({message: res.data.message, email: res.data.initialEmail}) //needs to clear the email field
+        this.setState({message: res.data.message, email: this.state.initialEmail}) //needs to clear the email field to initial empty state
         
 
       })
