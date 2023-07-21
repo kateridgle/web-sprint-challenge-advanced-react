@@ -1,20 +1,24 @@
 import React from 'react'
 import { useState } from 'react'
+import axios from 'axios';
 
 // Suggested initial states
 const initialState = {
-initialMessage: '',
-initialEmail: '',
-initialSteps: 0,
-initialIndex: 4
+  initialMessage: '',
+  initialEmail: '',
+  initialSteps: 0,
+  initialIndex: 4
 } // the index the "B" is at
 
 export default function AppFunctional(props) {
-  
-  const [state, setState] = useState(initialState);
-  // const [inputText, setInputText] = useState("")
 
-  const {message, email, steps, index} = state;
+  const [state, setState] = useState(initialState);
+  const [email, setEmail] = useState(initialEmail)
+  const [message, setMessage] = useState(initialMessage)
+  const [index, setIndex] = useState(initialIndex)
+  const [steps, setSteps] = useState(initialSteps)
+  // const [x, setX] = useState() unsure if need actual coordinates if index is used
+  // const { message, email, steps, index, x, y } = state; // commented out because seems to conflict 
 
   function getXY() {
     // It it not necessary to have a state to track the coordinates.
@@ -62,7 +66,7 @@ export default function AppFunctional(props) {
     // This event handler can use the helper above to obtain a new index for the "B",
     // and change any states accordingly.
     if (evt.target.id === "up") {
-      // console.log(evt);
+      // console.log(evt); it does register click
 
       if (state.index > 2) {
         setState({
@@ -130,17 +134,20 @@ export default function AppFunctional(props) {
   }
 
   function onChange(evt) {
-    // You will need this to update the value of the input.
     // console.log(inputText);
-    setInputText(evt.target.value)
+    setEmail(evt.target.value)
   }
 
   function onSubmit(evt) {
-    // Use a POST request to send a payload to the server.
+    evt.preventDefault();
+    const { x, y, email, message, steps } = payload
+    axios.post("http://localhost:9000/api/result", payload)
+      .then((res) => setState({ ...state, message: res.data.message, email: "" }))
+      .catch((err) => console.error(err))
   }
 
   return (
-    <div id="wrapper" className={state.className}>
+    <div id="wrapper" className={props.className}>
       <div className="info">
         <h3 id="coordinates">Coordinates (2, 2)</h3>
         <h3 id="steps">You moved 0 times</h3>
@@ -155,17 +162,17 @@ export default function AppFunctional(props) {
         }
       </div>
       <div className="info">
-        <h3 value={message} id="message">{state.message}</h3>
+        <h3 value={message} id="message">{props.message}</h3>
       </div>
       <div id="keypad">
-        <button value= {index} onClick={move} id="left">LEFT</button>
+        <button value={index} onClick={move} id="left">LEFT</button>
         <button value={index} onClick={move} id="up">UP</button>
         <button value={index} onClick={move} id="right">RIGHT</button>
         <button value={index} onClick={move} id="down">DOWN</button>
         <button value={index} onClick={move} id="reset">reset</button>
       </div>
       <form onSubmit={onSubmit}>
-        <input value={email}onChange={onChange} id="email" type="email" placeholder="type email"></input>
+        <input value={email} onChange={onChange} id="email" type="email" placeholder="type email"></input>
         <input id="submit" type="submit"></input>
       </form>
     </div>
