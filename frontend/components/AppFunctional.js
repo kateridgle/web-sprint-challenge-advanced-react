@@ -11,24 +11,24 @@ initialIndex: 4
 
 export default function AppFunctional(props) {
   
-  const [state, setState] = useState(initialState)
+  const [state, setState] = useState(initialState);
   // const [inputText, setInputText] = useState("")
 
-  const {message, email, steps, index} = props.values;
+  const {message, email, steps, index} = state;
 
   function getXY() {
     // It it not necessary to have a state to track the coordinates.
     // It's enough to know what index the "B" is at, to be able to calculate them.
-    const x = (props.index % 3) + 1
+    const x = (state.index % 3) + 1
 
     let y
-    if (props.index < 3) {
+    if (state.index < 3) {
       y = 1
     }
-    else if (props.index < 6) {
+    else if (state.index < 6) {
       y = 2
     }
-    else if (props.index < 9) {
+    else if (state.index < 9) {
       y = 3
     }
 
@@ -44,7 +44,12 @@ export default function AppFunctional(props) {
 
   function reset() {
     // Use this helper to reset all states to their initial values.
-    setState("")
+    setState({
+      message: "",
+      index: 4,
+      email: "",
+      steps: 0
+    })
   }
 
   function getNextIndex(direction) {
@@ -59,13 +64,13 @@ export default function AppFunctional(props) {
     if (evt.target.id === "up") {
       // console.log(evt);
 
-      if (props.index > 2) {
+      if (state.index > 2) {
         setState({
           ...state,
-          index: props.index - 3,
+          index: state.index - 3,
           message: "",
-          steps: props.steps + 1,
-          y: props.y - 1
+          steps: state.steps + 1,
+          y: state.y - 1
         })
       } else {
         setState({ ...state, message: "You can't go up" })
@@ -75,13 +80,13 @@ export default function AppFunctional(props) {
     if (evt.target.id === "down") {
       // console.log(evt);
 
-      if (props.index < 6) {
+      if (state.index < 6) {
         setState({
           ...state,
-          index: props.index + 3,
+          index: state.index + 3,
           message: "",
-          steps: props.steps + 1,
-          y: props.y + 1
+          steps: state.steps + 1,
+          y: state.y + 1
         })
       } else {
         setState({ ...state, message: "You can't go down" })
@@ -90,14 +95,14 @@ export default function AppFunctional(props) {
     }
     if (evt.target.id === "right") {
       // console.log(evt)
-      if (props.index === 1 || props.index === 4 || props.index === 7 || props.index === 0 || props.index === 3 ||
-        props.index === 6) {
+      if (state.index === 1 || state.index === 4 || state.index === 7 || state.index === 0 || state.index === 3 ||
+        state.index === 6) {
         setState({
           ...state,
-          index: props.index + 1,
+          index: state.index + 1,
           message: "",
-          steps: props.steps + 1,
-          x: props.x + 1
+          steps: state.steps + 1,
+          x: state.x + 1
         })
 
       } else {
@@ -108,14 +113,14 @@ export default function AppFunctional(props) {
 
     if (evt.target.id === "left") {
       // console.log(evt)
-      if (props.index === 1 || props.index === 4 || props.index === 7 || props.index === 2 || props.index === 5 ||
-        props.index === 8) {
+      if (state.index === 1 || state.index === 4 || state.index === 7 || state.index === 2 || state.index === 5 ||
+        state.index === 8) {
         setState({
           ...state,
-          index: props.index - 1,
+          index: state.index - 1,
           message: "",
-          steps: props.steps + 1,
-          x: props.x - 1
+          steps: state.steps + 1,
+          x: state.x - 1
         })
       } else {
         setState({ ...state, message: "You can't go left" })
@@ -135,7 +140,7 @@ export default function AppFunctional(props) {
   }
 
   return (
-    <div id="wrapper" className={props.className}>
+    <div id="wrapper" className={state.className}>
       <div className="info">
         <h3 id="coordinates">Coordinates (2, 2)</h3>
         <h3 id="steps">You moved 0 times</h3>
@@ -150,7 +155,7 @@ export default function AppFunctional(props) {
         }
       </div>
       <div className="info">
-        <h3 value={message} id="message">{props.message}</h3>
+        <h3 value={message} id="message">{state.message}</h3>
       </div>
       <div id="keypad">
         <button value= {index} onClick={move} id="left">LEFT</button>

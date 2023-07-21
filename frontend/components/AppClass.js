@@ -197,14 +197,14 @@ export default class AppClass extends React.Component {
     axios.post('http://localhost:9000/api/result', payload)
       .then(res => {
         console.log(res.data)
-        this.setState({message: res.data.message, email: this.state.initialEmail}) //needs to clear the email field to initial empty state
-        
+        this.setState({ message: res.data.message, email: "" }) //needs to clear the email field to initial empty state
+
 
       })
       .catch(err => {
         console.error(err)
       })
-  
+
 
   }
 
@@ -236,7 +236,7 @@ export default class AppClass extends React.Component {
           <button onClick={this.reset} id="reset">reset</button>
         </div>
         <form onSubmit={this.onSubmit}>
-          <input onChange={this.onChange} id="email" type="email" placeholder="type email"></input>
+          <input value={this.state.email} onChange={this.onChange} id="email" type="email" placeholder="type email"></input>
           <input id="submit" type="submit"></input>
         </form>
       </div>
