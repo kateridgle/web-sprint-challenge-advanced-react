@@ -137,10 +137,12 @@ export default function AppFunctional(props) {
     }
   }
 
-  function onChange(evt) {
-    // console.log(inputText);
-    setEmail(evt.target.value)
-  }
+  const onChange = (evt) => {
+    setState({
+      ...state,
+      email: evt.target.value,
+    });
+  };
 
   const onSubmit = (evt) => {
     // Use a POST request to send a payload to the server.
@@ -174,14 +176,14 @@ export default function AppFunctional(props) {
         }
       </div>
       <div className="info">
-        <h3 value={message} id="message">{props.message}</h3>
+        <h3 value={message} id="message">{message}</h3>
       </div>
       <div id="keypad">
-        <button onClick={move} id="left">LEFT</button>
-        <button onClick={move} id="up">UP</button>
-        <button onClick={move} id="right">RIGHT</button>
-        <button onClick={move} id="down">DOWN</button>
-        <button onClick={move} id="reset">reset</button>
+        <button value={index} onClick={move} id="left">LEFT</button>
+        <button value={index} onClick={move} id="up">UP</button>
+        <button value={index} onClick={move} id="right">RIGHT</button>
+        <button value={index} onClick={move} id="down">DOWN</button>
+        <button value={index} onClick={move} id="reset">reset</button>
       </div>
       <form onSubmit={onSubmit}>
         <input value={email} onChange={onChange} id="email" type="email" placeholder="type email"></input>
