@@ -163,8 +163,8 @@ export default function AppFunctional(props) {
   return (
     <div id="wrapper" className={props.className}>
       <div className="info">
-        <h3 id="coordinates">Coordinates (2, 2)</h3>
-        <h3 id="steps">You moved 0 times</h3>
+        <h3 id="coordinates">{getXYMessage()}</h3>
+        <h3 id="steps">You moved {state.steps} time{state.steps !== 1 ? 's' : ''}</h3>
       </div>
       <div id="grid">
         {
@@ -176,17 +176,17 @@ export default function AppFunctional(props) {
         }
       </div>
       <div className="info">
-        <h3 value={message} id="message">{message}</h3>
+        <h3 value={message} id="message">{state.message}</h3>
       </div>
       <div id="keypad">
         <button value={index} onClick={move} id="left">LEFT</button>
         <button value={index} onClick={move} id="up">UP</button>
         <button value={index} onClick={move} id="right">RIGHT</button>
         <button value={index} onClick={move} id="down">DOWN</button>
-        <button value={index} onClick={move} id="reset">reset</button>
+        <button value={index} onClick={reset} id="reset">reset</button>
       </div>
       <form onSubmit={onSubmit}>
-        <input value={email} onChange={onChange} id="email" type="email" placeholder="type email"></input>
+        <input value={state.email} onChange={onChange} id="email" type="email" placeholder="type email"></input>
         <input id="submit" type="submit"></input>
       </form>
     </div>
