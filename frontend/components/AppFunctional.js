@@ -162,11 +162,11 @@ export default function AppFunctional(props) {
         <h3 value={message} id="message">{props.message}</h3>
       </div>
       <div id="keypad">
-        <button value={index} onClick={state.move} id="left">LEFT</button>
-        <button value={index} onClick={state.move} id="up">UP</button>
-        <button value={index} onClick={state.move} id="right">RIGHT</button>
-        <button value={index} onClick={state.move} id="down">DOWN</button>
-        <button value={index} onClick={state.move} id="reset">reset</button>
+        <button onClick={move} id="left">LEFT</button>
+        <button onClick={move} id="up">UP</button>
+        <button onClick={move} id="right">RIGHT</button>
+        <button onClick={move} id="down">DOWN</button>
+        <button onClick={move} id="reset">reset</button>
       </div>
       <form onSubmit={onSubmit}>
         <input value={email} onChange={onChange} id="email" type="email" placeholder="type email"></input>
