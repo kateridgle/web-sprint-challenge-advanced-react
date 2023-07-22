@@ -32,7 +32,7 @@ export default class AppClass extends React.Component {
   }
 
   getXY = () => {
-    
+    // It's enough to know what index the "B" is at, to be able to calculate them.
     const x = (this.state.index % 3) + 1
 
     let y

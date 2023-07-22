@@ -3,27 +3,39 @@ import { useState } from 'react'
 import axios from 'axios';
 
 // Suggested initial states
-const initialState = {
-  initialMessage: '',
-  initialEmail: '',
-  initialSteps: 0,
-  initialIndex: 4
-} // the index the "B" is at
+// const initialState = {
+//   initialMessage: '',
+//   initialEmail: '',
+//   initialSteps: 0,
+//   initialIndex: 4
+// } // the index the "B" is at
 
 export default function AppFunctional(props) {
+  const initialState = {
+    initialMessage: '',
+    initialEmail: '',
+    initialSteps: 0,
+    initialIndex: 4
+  }
 
-  const [state, setState] = useState(initialState);
+  const [state, setState] = useState({
+    x: 2,
+    y: 2,
+    steps: 0,
+    email: "",
+    message: "",
+  });
   // const [email, setEmail] = useState(initialEmail)
   // const [message, setMessage] = useState(initialMessage)
   // const [index, setIndex] = useState(initialIndex)
   // const [steps, setSteps] = useState(initialSteps)
   // unsure if need actual coordinates if index is used
   // const [x, setX] = useState() 
-  const { message, email, steps, index, x, y } = state; // commented out because seems to conflict 
+  const { message, email, steps, index, x, y } = state; // removing this breaks the code 
 
   const getXY = (index) => {
     const x = (index % 3) + 1;
-  
+
     let y;
     if (index < 3) {
       y = 1;
@@ -32,19 +44,17 @@ export default function AppFunctional(props) {
     } else if (index < 9) {
       y = 3;
     }
-  
+
     return [x, y];
   };
 
-  function getXYMessage() {
-    // It it not necessary to have a state to track the "Coordinates (2, 2)" message for the user.
-    // You can use the `getXY` helper above to obtain the coordinates, and then `getXYMessage`
-    // returns the fully constructed string.
-    return (getXY())
-  }
+  const getXYMessage = (index) => {
+    const [x, y] = getXY(index);
+    return `Coordinates (${x},${y})`;
+  };
 
   function reset() {
-    // Use this helper to reset all states to their initial values.
+
     setState({
       message: "",
       index: 4,
@@ -54,15 +64,12 @@ export default function AppFunctional(props) {
   }
 
   function getNextIndex(direction) {
-    // This helper takes a direction ("left", "up", etc) and calculates what the next index
-    // of the "B" would be. If the move is impossible because we are at the edge of the grid,
-    // this helper should return the current index unchanged.
   }
 
   function move(evt) {
-    // This event handler can use the helper above to obtain a new index for the "B",
-    // and change any states accordingly.
+
     if (evt.target.id === "up") {
+      // console.log(evt)
       if (state.index > 2) {
         setState((prevState) => ({
           ...prevState,
@@ -135,13 +142,21 @@ export default function AppFunctional(props) {
     setEmail(evt.target.value)
   }
 
-  function onSubmit(evt) {
+  const onSubmit = (evt) => {
+    // Use a POST request to send a payload to the server.
     evt.preventDefault();
-    const { x, y, email, message, steps } = payload
-    axios.post("http://localhost:9000/api/result", payload)
-      .then((res) => setState({ ...state, message: res.data.message, email: "" }))
-      .catch((err) => console.error(err))
-  }
+
+    console.log(state.x, state.y, state.steps, state.email);
+    const payload = { x: state.x, y: state.y, steps: state.steps, email: state.email };
+    axios.post('http://localhost:9000/api/result', payload)
+      .then(res => {
+        console.log(res.data);
+        setState({ ...state, message: res.data.message, email: "" });
+      })
+      .catch(err => {
+        console.error(err);
+      });
+  };
 
   return (
     <div id="wrapper" className={props.className}>
