@@ -19,8 +19,7 @@ export default function AppFunctional(props) {
   }
 
   const [state, setState] = useState({
-    x: 2,
-    y: 2,
+    index: 4,
     steps: 0,
     email: "",
     message: "",
@@ -31,9 +30,10 @@ export default function AppFunctional(props) {
   // const [steps, setSteps] = useState(initialSteps)
   // unsure if need actual coordinates if index is used
   // const [x, setX] = useState() 
-  const { message, email, steps, index, x, y } = state; // removing this breaks the code 
+  const { message, email, steps, index } = state; // removing this breaks the code 
 
   const getXY = (index) => {
+  
     const x = (index % 3) + 1;
 
     let y;
@@ -163,7 +163,7 @@ export default function AppFunctional(props) {
   return (
     <div id="wrapper" className={props.className}>
       <div className="info">
-        <h3 id="coordinates">{getXYMessage()}</h3>
+        <h3 id="coordinates">{getXYMessage(index)}</h3>
         <h3 id="steps">You moved {state.steps} time{state.steps !== 1 ? 's' : ''}</h3>
       </div>
       <div id="grid">
@@ -186,7 +186,7 @@ export default function AppFunctional(props) {
         <button value={index} onClick={reset} id="reset">reset</button>
       </div>
       <form onSubmit={onSubmit}>
-        <input value={state.email} onChange={onChange} id="email" type="email" placeholder="type email"></input>
+        <input value={email} onChange={onChange} id="email" type="email" placeholder="type email"></input>
         <input id="submit" type="submit"></input>
       </form>
     </div>
