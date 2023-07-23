@@ -3,22 +3,20 @@ import { useState } from 'react'
 import axios from 'axios';
 
 // Suggested initial states
-const initialState = {
-  initialMessage: '',
-  initialEmail: '',
-  initialSteps: 0,
-  initialIndex: 4
-} // the index the "B" is at
+const initialMessage = ''
+const initialEmail = ''
+const initialSteps = 0
+const initialIndex = 4 // the index the "B" is at
 
 export default function AppFunctional(props) {
 
 
-  const [state, setState] = useState({
-    index: 4,
-    steps: 0,
-    email: "",
-    message: "",
-  });
+  // const [state, setState] = useState({
+  //   index: 4,
+  //   steps: 0,
+  //   email: "",
+  //   message: "",
+  // });
   const [email, setEmail] = useState(initialEmail)
   const [message, setMessage] = useState(initialMessage)
   const [index, setIndex] = useState(initialIndex)
@@ -49,22 +47,14 @@ export default function AppFunctional(props) {
   };
 
   function reset() {
-
-    setState({
-      setIndex(initialIndex),
-      setMessage(initialMessage),
-      setSteps(initialSteps),
-      setEmail(initialEmail),
-    })
+    setIndex(initialIndex)
+    setMessage(initialMessage)
+    setSteps(initialSteps)
+    setEmail(initialEmail)
   }
 
   function getNextIndex(direction) {
-  }
-
-  function move(evt) {
-
     if (evt.target.id === "up") {
-      // console.log(evt)
       if (state.index > 2) {
         setState((prevState) => ({
           ...prevState,
@@ -77,59 +67,65 @@ export default function AppFunctional(props) {
         setState((prevState) => ({ ...prevState, message: "You can't go up" }));
       }
     }
-    if (evt.target.id === "down") {
-      if (state.index < 6) {
-        setState((prevState) => ({
-          ...prevState,
-          index: prevState.index + 3,
-          message: "",
-          steps: prevState.steps + 1,
-          y: prevState.y + 1
-        }));
-      } else {
-        setState((prevState) => ({ ...prevState, message: "You can't go down" }));
-      }
+  }
+  if (evt.target.id === "down") {
+    if (state.index < 6) {
+      setState((prevState) => ({
+        ...prevState,
+        index: prevState.index + 3,
+        message: "",
+        steps: prevState.steps + 1,
+        y: prevState.y + 1
+      }));
+    } else {
+      setState((prevState) => ({ ...prevState, message: "You can't go down" }));
     }
-    if (evt.target.id === "right") {
-      if (
-        state.index === 1 ||
-        state.index === 4 ||
-        state.index === 7 ||
-        state.index === 0 ||
-        state.index === 3 ||
-        state.index === 6
-      ) {
-        setState((prevState) => ({
-          ...prevState,
-          index: prevState.index + 1,
-          message: "",
-          steps: prevState.steps + 1,
-          x: prevState.x + 1
-        }));
-      } else {
-        setState((prevState) => ({ ...prevState, message: "You can't go right" }));
-      }
+  }
+  if (evt.target.id === "right") {
+    if (
+      state.index === 1 ||
+      state.index === 4 ||
+      state.index === 7 ||
+      state.index === 0 ||
+      state.index === 3 ||
+      state.index === 6
+    ) {
+      setState((prevState) => ({
+        ...prevState,
+        index: prevState.index + 1,
+        message: "",
+        steps: prevState.steps + 1,
+        x: prevState.x + 1
+      }));
+    } else {
+      setState((prevState) => ({ ...prevState, message: "You can't go right" }));
     }
-    if (evt.target.id === "left") {
-      if (
-        state.index === 1 ||
-        state.index === 4 ||
-        state.index === 7 ||
-        state.index === 2 ||
-        state.index === 5 ||
-        state.index === 8
-      ) {
-        setState((prevState) => ({
-          ...prevState,
-          index: prevState.index - 1,
-          message: "",
-          steps: prevState.steps + 1,
-          x: prevState.x - 1
-        }));
-      } else {
-        setState((prevState) => ({ ...prevState, message: "You can't go left" }));
-      }
+  }
+  if (evt.target.id === "left") {
+    if (
+      state.index === 1 ||
+      state.index === 4 ||
+      state.index === 7 ||
+      state.index === 2 ||
+      state.index === 5 ||
+      state.index === 8
+    ) {
+      setState((prevState) => ({
+        ...prevState,
+        index: prevState.index - 1,
+        message: "",
+        steps: prevState.steps + 1,
+        x: prevState.x - 1
+      }));
+    } else {
+      setState((prevState) => ({ ...prevState, message: "You can't go left" }));
     }
+  }
+
+  function move(evt) {
+     // console.log(evt)
+    const direction = evt.target.id
+    const nextIndex = getNextIndex(direction)
   }
 
   function onChange(evt) {
