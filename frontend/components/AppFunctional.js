@@ -3,20 +3,15 @@ import { useState } from 'react'
 import axios from 'axios';
 
 // Suggested initial states
-// const initialState = {
-//   initialMessage: '',
-//   initialEmail: '',
-//   initialSteps: 0,
-//   initialIndex: 4
-// } // the index the "B" is at
+const initialState = {
+  initialMessage: '',
+  initialEmail: '',
+  initialSteps: 0,
+  initialIndex: 4
+} // the index the "B" is at
 
 export default function AppFunctional(props) {
-  const initialState = {
-    initialMessage: '',
-    initialEmail: '',
-    initialSteps: 0,
-    initialIndex: 4
-  }
+
 
   const [state, setState] = useState({
     index: 4,
@@ -24,16 +19,16 @@ export default function AppFunctional(props) {
     email: "",
     message: "",
   });
-  // const [email, setEmail] = useState(initialEmail)
-  // const [message, setMessage] = useState(initialMessage)
-  // const [index, setIndex] = useState(initialIndex)
-  // const [steps, setSteps] = useState(initialSteps)
+  const [email, setEmail] = useState(initialEmail)
+  const [message, setMessage] = useState(initialMessage)
+  const [index, setIndex] = useState(initialIndex)
+  const [steps, setSteps] = useState(initialSteps)
   // unsure if need actual coordinates if index is used
   // const [x, setX] = useState() 
-  const { message, email, steps, index } = state; // removing this breaks the code 
+  // removing this breaks the code 
 
   const getXY = (index) => {
-  
+
     const x = (index % 3) + 1;
 
     let y;
@@ -48,18 +43,18 @@ export default function AppFunctional(props) {
     return [x, y];
   };
 
-  const getXYMessage = (index) => {
-    const [x, y] = getXY(index);
-    return `Coordinates (${x},${y})`;
+  const getXYMessage = () => {
+
+    return `Coordinates ${getXY(index)}`;
   };
 
   function reset() {
 
     setState({
-      message: "",
-      index: 4,
-      email: "",
-      steps: 0
+      setIndex(initialIndex),
+      setMessage(initialMessage),
+      setSteps(initialSteps),
+      setEmail(initialEmail),
     })
   }
 
@@ -137,28 +132,30 @@ export default function AppFunctional(props) {
     }
   }
 
-  const onChange = (evt) => {
-    setState({
-      ...state,
-      email: evt.target.value,
-    });
-  };
+  function onChange(evt) {
+    const { value } = evt.target
+    setEmail(value)
+  }
 
-  const onSubmit = (evt) => {
+  function onSubmit(evt) {
     // Use a POST request to send a payload to the server.
     evt.preventDefault();
 
     console.log(state.x, state.y, state.steps, state.email);
-    const payload = { x: state.x, y: state.y, steps: state.steps, email: state.email };
-    axios.post('http://localhost:9000/api/result', payload)
+    const [x, y] = getXY()
+    let message
+    axios.post('http://localhost:9000/api/result', { email, steps, x, y })
       .then(res => {
-        console.log(res.data);
-        setState({ ...state, message: res.data.message, email: "" });
+        message = res.data.message
       })
       .catch(err => {
-        console.error(err);
-      });
-  };
+        message = err.response.data.message
+      })
+      .finally(() => {
+        setMessage(message)
+        setEmail(initialEmail)
+      })
+  }
 
   return (
     <div id="wrapper" className={props.className}>
@@ -176,7 +173,7 @@ export default function AppFunctional(props) {
         }
       </div>
       <div className="info">
-        <h3 value={message} id="message">{state.message}</h3>
+        <h3 value={message} id="message">{message}</h3>
       </div>
       <div id="keypad">
         <button value={index} onClick={move} id="left">LEFT</button>
