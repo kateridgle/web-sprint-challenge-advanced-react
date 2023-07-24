@@ -34,7 +34,7 @@ export default function AppFunctional(props) {
 
   const getXYMessage = () => {
 
-    return `Coordinates ${getXY(index)}`;
+    return `Coordinates (${getXY(index)})`;
   };
 
   function reset() {
@@ -159,8 +159,6 @@ export default function AppFunctional(props) {
       .finally(() => {
         setMessage(message)
         setEmail(initialEmail)
-        setIndex(index)
-        setSteps(steps)
       })
   }
 
