@@ -2,28 +2,20 @@ import React from 'react'
 import { useState } from 'react'
 import axios from 'axios';
 
-// Suggested initial states
+
 const initialMessage = ''
 const initialEmail = ''
 const initialSteps = 0
-const initialIndex = 4 // the index the "B" is at
+const initialIndex = 4
 
 export default function AppFunctional(props) {
 
-
-  // const [state, setState] = useState({
-  //   index: 4,
-  //   steps: 0,
-  //   email: "",
-  //   message: "",
-  // });
   const [email, setEmail] = useState(initialEmail)
   const [message, setMessage] = useState(initialMessage)
   const [index, setIndex] = useState(initialIndex)
   const [steps, setSteps] = useState(initialSteps)
-  // unsure if need actual coordinates if index is used
-  // const [x, setX] = useState() 
-  // removing this breaks the code 
+
+
 
   const getXY = (index) => {
 
@@ -54,78 +46,96 @@ export default function AppFunctional(props) {
   }
 
   function getNextIndex(direction) {
-    if (evt.target.id === "up") {
-      if (state.index > 2) {
-        setState((prevState) => ({
-          ...prevState,
-          index: prevState.index - 3,
-          message: "",
-          steps: prevState.steps + 1,
-          y: prevState.y - 1
-        }));
-      } else {
-        setState((prevState) => ({ ...prevState, message: "You can't go up" }));
-      }
-    }
-  }
-  if (evt.target.id === "down") {
-    if (state.index < 6) {
-      setState((prevState) => ({
-        ...prevState,
-        index: prevState.index + 3,
-        message: "",
-        steps: prevState.steps + 1,
-        y: prevState.y + 1
-      }));
-    } else {
-      setState((prevState) => ({ ...prevState, message: "You can't go down" }));
-    }
-  }
-  if (evt.target.id === "right") {
-    if (
-      state.index === 1 ||
-      state.index === 4 ||
-      state.index === 7 ||
-      state.index === 0 ||
-      state.index === 3 ||
-      state.index === 6
-    ) {
-      setState((prevState) => ({
-        ...prevState,
-        index: prevState.index + 1,
-        message: "",
-        steps: prevState.steps + 1,
-        x: prevState.x + 1
-      }));
-    } else {
-      setState((prevState) => ({ ...prevState, message: "You can't go right" }));
-    }
-  }
-  if (evt.target.id === "left") {
-    if (
-      state.index === 1 ||
-      state.index === 4 ||
-      state.index === 7 ||
-      state.index === 2 ||
-      state.index === 5 ||
-      state.index === 8
-    ) {
-      setState((prevState) => ({
-        ...prevState,
-        index: prevState.index - 1,
-        message: "",
-        steps: prevState.steps + 1,
-        x: prevState.x - 1
-      }));
-    } else {
-      setState((prevState) => ({ ...prevState, message: "You can't go left" }));
+    //   if (direction === "up") {
+    //     if (index > 2) {
+    //       useState((prevState) => ({
+    //         ...prevState,
+    //         index: prevState.index - 3,
+    //         message: "",
+    //         steps: prevState.steps + 1,
+    //         y: prevState.y - 1
+    //       }));
+    //     } else {
+    //       useState((prevState) => ({ ...prevState, message: "You can't go up" }));
+    //     }
+    //   }
+    // }
+    // if (direction === "down") {
+    //   if (state.index < 6) {
+    //     useState((prevState) => ({
+    //       ...prevState,
+    //       index: prevState.index + 3,
+    //       message: "",
+    //       steps: prevState.steps + 1,
+    //       y: prevState.y + 1
+    //     }));
+    //   } else {
+    //     useState((prevState) => ({ ...prevState, message: "You can't go down" }));
+    //   }
+    // }
+    // if (direction === "right") {
+    //   if (
+    //     state.index === 1 ||
+    //     state.index === 4 ||
+    //     state.index === 7 ||
+    //     state.index === 0 ||
+    //     state.index === 3 ||
+    //     state.index === 6
+    //   ) {
+    //     useState((prevState) => ({
+    //       ...prevState,
+    //       index: prevState.index + 1,
+    //       message: "",
+    //       steps: prevState.steps + 1,
+    //       x: prevState.x + 1
+    //     }));
+    //   } else {
+    //     useState((prevState) => ({ ...prevState, message: "You can't go right" }));
+    //   }
+    // }
+    // if (direction === "left") {
+    //   if (
+    //     state.index === 1 ||
+    //     state.index === 4 ||
+    //     state.index === 7 ||
+    //     state.index === 2 ||
+    //     state.index === 5 ||
+    //     state.index === 8
+    //   ) {
+    //     useState((prevState) => ({
+    //       ...prevState,
+    //       index: prevState.index - 1,
+    //       message: "",
+    //       steps: prevState.steps + 1,
+    //       x: prevState.x - 1
+    //     }));
+    //   } else {
+    //     useState((prevState) => ({ ...prevState, message: "You can't go left" }));
+    //   }
+    switch (direction) {
+      case 'up':
+        return (index < 3) ? index : index - 3
+      case 'down':
+        return (index > 5) ? index : index + 3
+      case 'right':
+        return ((index - 2) % 3 === 0) ? index : index + 1
+      case 'left':
+        return (index % 3 === 0) ? index : index - 1
     }
   }
 
   function move(evt) {
-     // console.log(evt)
+    // console.log(evt)
     const direction = evt.target.id
     const nextIndex = getNextIndex(direction)
+    if(nextIndex !== index){
+      setSteps(steps + 1)
+      setMessage(initialMessage)
+      setIndex(nextIndex)
+    }
+    else {
+      setMessage(`You can't go ${direction}`)
+    }
   }
 
   function onChange(evt) {
@@ -137,8 +147,8 @@ export default function AppFunctional(props) {
     // Use a POST request to send a payload to the server.
     evt.preventDefault();
 
-    console.log(state.x, state.y, state.steps, state.email);
     const [x, y] = getXY()
+    console.log(x, y, steps, email);
     let message
     axios.post('http://localhost:9000/api/result', { email, steps, x, y })
       .then(res => {
@@ -157,13 +167,13 @@ export default function AppFunctional(props) {
     <div id="wrapper" className={props.className}>
       <div className="info">
         <h3 id="coordinates">{getXYMessage(index)}</h3>
-        <h3 id="steps">You moved {state.steps} time{state.steps !== 1 ? 's' : ''}</h3>
+        <h3 id="steps">You moved {steps} time {steps !== 1 ? 's' : ''}</h3>
       </div>
       <div id="grid">
         {
           [0, 1, 2, 3, 4, 5, 6, 7, 8].map(idx => (
-            <div value={steps} key={idx} className={`square${idx === 4 ? ' active' : ''}`}>
-              {idx === 4 ? 'B' : null}
+            <div value={steps} key={idx} className={`square${idx === index ? ' active' : ''}`}>
+              {idx === index ? 'B' : null}
             </div>
           ))
         }
