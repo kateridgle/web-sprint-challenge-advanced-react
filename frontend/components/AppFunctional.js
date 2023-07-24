@@ -29,7 +29,6 @@ export default function AppFunctional(props) {
     } else if (index < 9) {
       y = 3;
     }
-
     return [x, y];
   };
 
@@ -128,7 +127,7 @@ export default function AppFunctional(props) {
     // console.log(evt)
     const direction = evt.target.id
     const nextIndex = getNextIndex(direction)
-    if(nextIndex !== index){
+    if (nextIndex !== index) {
       setSteps(steps + 1)
       setMessage(initialMessage)
       setIndex(nextIndex)
@@ -147,7 +146,7 @@ export default function AppFunctional(props) {
     // Use a POST request to send a payload to the server.
     evt.preventDefault();
 
-    const [x, y] = getXY()
+    const [x, y] = getXY(index)
     console.log(x, y, steps, email);
     let message
     axios.post('http://localhost:9000/api/result', { email, steps, x, y })
@@ -160,6 +159,8 @@ export default function AppFunctional(props) {
       .finally(() => {
         setMessage(message)
         setEmail(initialEmail)
+        setIndex(index)
+        setSteps(steps)
       })
   }
 
